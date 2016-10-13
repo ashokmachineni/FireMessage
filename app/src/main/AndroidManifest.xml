@@ -41,6 +41,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SignInActivity" />
+        <activity android:name=".CategoryMovieActivity" />
         <service
             android:name=".MyFirebaseMessagingService">
             <intent-filter>
