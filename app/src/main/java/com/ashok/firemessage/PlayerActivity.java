@@ -54,6 +54,8 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.upstream.HttpDataSource;
 import com.google.android.exoplayer2.util.Util;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 
 import java.net.CookieHandler;
 import java.net.CookieManager;
@@ -94,6 +96,9 @@ public class PlayerActivity extends Activity implements View.OnClickListener, Ex
     private LinearLayout debugRootView;
     private TextView debugTextView;
     private Button retryButton;
+    InterstitialAd mInterstitialAd;
+    private InterstitialAd mInterstitial;
+    private com.google.android.gms.ads.AdView mAdView;
 
     private String userAgent;
     private DataSource.Factory mediaDataSourceFactory;
@@ -132,6 +137,23 @@ public class PlayerActivity extends Activity implements View.OnClickListener, Ex
         simpleExoPlayerView = (SimpleExoPlayerView) findViewById(R.id.player_view);
         simpleExoPlayerView.setControllerVisibilityListener(this);
         simpleExoPlayerView.requestFocus();
+        mAdView = (com.google.android.gms.ads.AdView) findViewById(R.id.adView);
+        mAdView.loadAd(new AdRequest.Builder().build());
+
+        mInterstitial = new InterstitialAd(this);
+        mInterstitial.setAdUnitId("ca-app-pub-4981485298642595/6250525668");
+        mInterstitial.loadAd(new AdRequest.Builder().build());
+
+        mInterstitial.setAdListener(new com.google.android.gms.ads.AdListener() {
+            @Override
+            public void onAdLoaded() {
+                // TODO Auto-generated method stub
+                super.onAdLoaded();
+                if (mInterstitial.isLoaded()) {
+                    mInterstitial.show();
+                }
+            }
+        });
     }
 
     @Override
